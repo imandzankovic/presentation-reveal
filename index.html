@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>reveal.js – The HTML Presentation Framework</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Hakim El Hattab">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/reveal.css">
+	<link rel="stylesheet" href="/css/theme/black.css" id="theme">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+
+	<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+
+			<section>
+				<H1>ADD TITLE AND TEXT</H1>
+				<div class="row">
+					<div class="col-md-12">
+						<form action="http://localhost:3000/api/abouts" method="POST">
+
+							<div class="form-group">
+								<input type="text" name="name" value="" placeholder="title " id="name"
+									autofocus="autofocus" class="form-control" />
+							</div>
+							<div class="form-group">
+								<input type="text" name="title" value="" placeholder="text" id="title"
+									class="form-control" />
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">Create presentation</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+
+			<section>
+				<h1>ADD TWO TITLES</h1>
+				<div class="row">
+					<div class="col-md-12">
+						<form action="http://localhost:3000/api/dvas" method="POST">
+
+							<div class="form-group">
+								<input type="text" name="name" value="" placeholder="title 1 " id="name"
+									autofocus="autofocus" class="form-control" />
+							</div>
+							<div class="form-group">
+								<input type="text" name="title" value="" placeholder="title 2" id="title"
+									class="form-control" />
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">Create presentation</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+
+			</section>
+
+
+			<section id="themes">
+				<h2>Themes</h2>
+				<p>
+					reveal.js comes with a few themes built in: <br>
+					Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js
+					demo deck. -->
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black
+						(default)</a> -
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a>
+					<br>
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a>
+					-
+					<a href="#"
+						onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+				</p>
+			</section>
+
+
+		</div>
+
+	</div>
+
+	<script src="/js/reveal.js"></script>
+
+	<script>
+
+		// More info https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
+
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+			// More info https://github.com/hakimel/reveal.js#dependencies
+			dependencies: [
+				{ src: '/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: '/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: '/plugin/highlight/highlight.js', async: true },
+				{ src: '/plugin/search/search.js', async: true },
+				{ src: '/plugin/zoom-js/zoom.js', async: true },
+				{ src: '/plugin/notes/notes.js', async: true }
+			]
+		});
+
+	</script>
+
+</body>
+
+</html>
