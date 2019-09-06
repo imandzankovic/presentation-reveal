@@ -20,7 +20,7 @@ exports.params = function (req, res, next, id) {
 exports.get = function (req, res, next) {
   About.find({}, '-__v')
     .then(function (abouts) {
-        res.render(path.resolve('/Users/Iman/Desktop/reveal/reveal.js/test.html'), {
+        res.render(path.resolve('/Users/Iman/Desktop/presis/test.html'), {
         
         //  abouts:abouts
         abouts:abouts
