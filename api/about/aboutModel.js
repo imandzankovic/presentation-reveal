@@ -12,6 +12,16 @@ var AboutSchema = new Schema({
     description: {
         type: String
     },
+    x: {
+        type: Number,
+        default:15
+
+    },
+    y: {
+        type: Number,
+        default:25
+
+    },
     img: {
         type: String,
 

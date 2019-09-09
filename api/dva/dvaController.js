@@ -1,4 +1,4 @@
-var About = require('./dva');
+var About = require('../about/aboutModel');
 const fs = require("fs")
 var _ = require('lodash');
 var path = require('path')

@@ -21,7 +21,7 @@
 
 	<!-- Theme used for syntax highlighting of code -->
 	<link rel="stylesheet" href="lib/css/monokai.css">
-
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<!-- Printing and PDF exports -->
 	<script>
 		var link = document.createElement('link');
@@ -31,9 +31,7 @@
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
 
-	<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
+
 </head>
 
 <body>
@@ -42,6 +40,116 @@
 
 		<!-- Any section element inside of this container is displayed as a slide -->
 		<div class="slides">
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<link rel="stylesheet" href="/resources/demos/style.css">
+			<style>
+				#draggable {
+					width: 150px;
+					height: 150px;
+					padding: 0.5em;
+				}
+			</style>
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<section>
+
+
+				<div id="container" class="ui-widget-content">
+					<h3 class="ui-widget-header">Content</h3>
+					<span id="draggable">*
+						<input type="text " name="title" id="resizable" class="ui-state-active"
+							value="This is input box">
+					</span>
+				</div>
+
+				<style>
+					#container {
+						width: 900px;
+						height: 3000px;
+					}
+
+					#container h3 {
+						text-align: center;
+						margin: 0;
+						margin-bottom: 10px;
+					}
+
+					#resizable,
+					#container {
+						padding: 0.5em;
+					}
+				</style>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+				<script>
+					$(function () {
+						$("#resizable").resizable({
+							containment: "#container"
+						});
+						$("#draggable").draggable({ containment: "#container" });
+					});
+
+
+					document.getElementById("resizable").addEventListener('click', postSlide)
+					function getPosition(e) {
+						var rect = e.target.getBoundingClientRect();
+						var x = e.clientX - rect.left;
+						var y = e.clientY - rect.top;
+						console.log('pozicija je ' + x, y)
+						return {
+							x,
+							y
+						}
+					}
+
+					var clickedOnce = false;
+					let id = ''; 
+					let resPost;
+					function postSlide(e) {
+						
+						if (!clickedOnce) {
+							clickedOnce = true;
+							var res = getPosition(e);
+							console.log('iz posta' + res.x)
+							axios.post('http://localhost:3000/api/abouts', {
+								title: '',
+								description: '',
+								x: res.x,
+								y: res.y
+							})
+								.then((res) => {
+									console.log(`statusCode: ${res.statusCode}`)
+									console.log(res.data)
+									id = res.data._id
+									resPost=res;
+								})
+								.catch((error) => {
+									console.error(error)
+								})
+						}
+
+						else {
+							console.log('iz puta')
+							axios.put('http://localhost:3000/api/abouts/' + id, {
+								title: document.getElementById("resizable").value,
+								description: '',
+								x: resPost.data.x,
+								y: resPost.data.y
+							})
+								.then((res) => {
+									console.log(`statusCode: ${res.statusCode}`)
+									console.log(res)
+								})
+								.catch((error) => {
+									console.error(error)
+								})
+						}
+
+					}
+
+				</script>
+
+			</section>
+
 
 			<section>
 				<H1>ADD TITLE AND TEXT</H1>
@@ -74,8 +182,8 @@
 						<form action="http://localhost:3000/api/dvas" method="POST">
 
 							<div class="form-group">
-								<input type="text" name="name" value="" placeholder="title 1 " id="name"
-									autofocus="autofocus" class="form-control" />
+								<input draggable="true" type="text" name="name" value="" placeholder="title 1 "
+									id="name" autofocus="autofocus" class="form-control" />
 							</div>
 							<div class="form-group">
 								<input type="text" name="title" value="" placeholder="title 2" id="title"
@@ -165,6 +273,7 @@
 		});
 
 	</script>
+
 
 </body>
 

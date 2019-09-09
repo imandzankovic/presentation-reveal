@@ -30,13 +30,14 @@
 		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 	<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 </head>
 
 <body>
+<canvas>
 
 	<div class="reveal">
 
@@ -49,66 +50,15 @@
 			
 			<%for(let i=0; i<abouts.length; i++) {%>
 				<section>
-						
-						<h2 class="<%= abouts[i].id%>" id="<%= abouts[i].id%>"><%= abouts[i].title %> </h2> 
+				
+						<h2><%= abouts[i].title %> </h2> 
 	
-						<p class="<%= abouts[i].title%>" id="<%= abouts[i].title%>">
+						<p>
 							<%=abouts[i].name %> 
 						</p>
-						<!-- <canvas id="id"> -->
-							
-						<!-- </canvas> -->
-						<style>
-							
-
-#area {
-  position: fixed;
-  right: 0;
-  top: 0;
-}
-
-						</style>
-						<script>
-						var x='<%= abouts[i].x%>'; 
-						var y='<%= abouts[i].y%>'; 
-						console.log(x);
-						console.log(y)
-						var element = document.getElementById('<%=abouts[i].id%>');
-							// element.style.left = '<%=abouts[i].x%>' + "px";
-							// element.style.right = '<%=abouts[i].y%>' + "px";
-							element.style.position = "absolute";
-
-							element.style.left = '<%=abouts[i].x%>' + "px";
-							element.style.top = '<%=abouts[i].y%>' + "px";
-console.log(element.style.marginLeft)
-
-// document.getElementById('<%=abouts[i].id%>').addEventListener('click', printPosition)
-// console.log('<%=abouts[i].id%>')
-// document.getElementById('<%= abouts[i].title%>').addEventListener('click', printPosition)
-// console.log('<%= abouts[i].title%>')
-
-
-function getPosition(e) {
-  var rect = e.target.getBoundingClientRect();
-  var x = e.clientX - rect.left;
-  var y = e.clientY - rect.top;
-  console.log('pozicija je ' + x,y)
-  return {
-    x,
-    y
-  }
-}
-
-function printPosition(e) {
-  var position = getPosition(e);
-  console.log('iz printa' + position.x, position.y)
-  document.getElementById('area').value = 'X: ' + position.x + ' Y: ' + position.y;
-}
-						
-						</script>
+				
 		  </section>
 		   <%}%>
-
 
 
 		</div>
@@ -140,7 +90,7 @@ function printPosition(e) {
 		});
 
 	</script>
-
+</canvas>
 </body>
 
 </html>
