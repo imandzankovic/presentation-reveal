@@ -56,16 +56,30 @@
 
 				<div id="container" class="ui-widget-content">
 					<h3 class="ui-widget-header">Content</h3>
-					<span id="draggable">*
-						<input type="text " name="title" id="resizable" class="ui-state-active"
-							value="This is input box">
-					</span>
+					<!-- <span id="draggable">* -->
+					<input type="text " name="title" id="resizable" class="ui-state-active" value="This is input box">
+					<!-- </span> -->
+
+
+
+					<!-- <input type="text" id="pets" /> -->
+					<input type="button" id="addPet" value="Add Element" />
+					<br />
+
 				</div>
 
+
+
 				<style>
+					.ui-wrapper {
+						background-color: red;
+						padding: 0cm !important
+					}
+
 					#container {
 						width: 900px;
 						height: 3000px;
+
 					}
 
 					#container h3 {
@@ -77,17 +91,46 @@
 					#resizable,
 					#container {
 						padding: 0.5em;
+
 					}
 				</style>
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 				<script>
+
+					document.getElementById("addPet").onclick = function () {
+						var form = document.getElementById("container");
+						var input = document.createElement("textarea");
+						input.id = "mystyle"
+						input.type = "text";
+						var br = document.createElement("br");
+						form.appendChild(input);
+						form.appendChild(br);
+
+						//$("#mystyle").wrap( "<div></div>" );
+						$('.ui-wrapper').removeAttr('style').css('top', '10px').css('left', '20px').css('position', 'relative');
+						$("#mystyle").resizable({ cancel: null });
+						$("#mystyle").draggable({
+							snapMode: 'inner',
+							snapTolerance: 50,
+							revert: 'invalid',
+							helper: 'clone',
+							appendTo: "body",
+							cursor: 'move'
+						});
+
+
+					}
+
+
 					$(function () {
 						$("#resizable").resizable({
+
 							containment: "#container"
 						});
-						$("#draggable").draggable({ containment: "#container" });
+						$("#resizable").draggable({
+						cancel:null
+						});
 					});
-
 
 					document.getElementById("resizable").addEventListener('click', postSlide)
 					function getPosition(e) {
@@ -102,10 +145,10 @@
 					}
 
 					var clickedOnce = false;
-					let id = ''; 
+					let id = '';
 					let resPost;
 					function postSlide(e) {
-						
+
 						if (!clickedOnce) {
 							clickedOnce = true;
 							var res = getPosition(e);
@@ -120,7 +163,7 @@
 									console.log(`statusCode: ${res.statusCode}`)
 									console.log(res.data)
 									id = res.data._id
-									resPost=res;
+									resPost = res;
 								})
 								.catch((error) => {
 									console.error(error)
