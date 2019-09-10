@@ -110,12 +110,7 @@
 						$('.ui-wrapper').removeAttr('style').css('top', '10px').css('left', '20px').css('position', 'relative');
 						$("#mystyle").resizable({ cancel: null });
 						$("#mystyle").draggable({
-							snapMode: 'inner',
-							snapTolerance: 50,
-							revert: 'invalid',
-							helper: 'clone',
-							appendTo: "body",
-							cursor: 'move'
+							cancel:null
 						});
 
 
