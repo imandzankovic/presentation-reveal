@@ -71,11 +71,6 @@
 
 
 				<style>
-					.ui-wrapper {
-						background-color: red;
-						padding: 0cm !important
-					}
-
 					#container {
 						width: 900px;
 						height: 3000px;
@@ -102,29 +97,25 @@
 						var input = document.createElement("textarea");
 						input.id = "mystyle"
 						input.type = "text";
+						input.value = "This is input box";
+						input.focus();
 						var br = document.createElement("br");
 						form.appendChild(input);
 						form.appendChild(br);
 
-						//$("#mystyle").wrap( "<div></div>" );
-						$('.ui-wrapper').removeAttr('style').css('top', '10px').css('left', '20px').css('position', 'relative');
-						$("#mystyle").resizable({ cancel: null });
-						$("#mystyle").draggable({
-							cancel:null
-						});
+						$('#mystyle').resizable({ cancel: null }); //adds a new parent to #clown
+						$('#mystyle').parent().draggable({ cancel: null });  //makes the new parent draggable
 
+						$('#mystyle').focus();
+							
 
 					}
 
-
 					$(function () {
-						$("#resizable").resizable({
+						$('#resizable').resizable({ cancel: null }); //adds a new parent to #clown
+						$('#resizable').parent().draggable({ cancel: null });  //makes the new parent draggable
 
-							containment: "#container"
-						});
-						$("#resizable").draggable({
-						cancel:null
-						});
+
 					});
 
 					document.getElementById("resizable").addEventListener('click', postSlide)
