@@ -14,23 +14,24 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	
+
 	<link rel="stylesheet" href="/css/reset.css">
 	<link rel="stylesheet" href="/css/reveal.css">
 	<link rel="stylesheet" href="/css/theme/black.css" id="theme">
-
+	<link rel="stylesheet" href="/lib/css/monokai.css">
 	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<script src="/js/reveal.js"></script>
 
 	<!-- Printing and PDF exports -->
 	<script>
 		var link = document.createElement('link');
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
-		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '/css/print/pdf.css' : '/css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
@@ -43,80 +44,51 @@
 		<!-- Any section element inside of this container is displayed as a slide -->
 		<div class="slides">
 
-			<!-- <section data-markdown="slides/example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n\n"
-				>
-			</section> -->
+
+			<%for(let i=0; i<slidesx.length; i++) {%>
+					
+				<section>		
+					<%for(let j=0; j<slidesx[i].elements.length; j++) {%>
 			
-			<%for(let i=0; i<abouts.length; i++) {%>
-				<section>
-						
-						<h2 class="<%= abouts[i].id%>" id="<%= abouts[i].id%>"><%= abouts[i].title %> </h2> 
-	
-						<p class="<%= abouts[i].title%>" id="<%= abouts[i].title%>">
-							<%=abouts[i].name %> 
-						</p>
-						<!-- <canvas id="id"> -->
-							
-						<!-- </canvas> -->
-						<style>
-							
 
-#area {
-  position: fixed;
-  right: 0;
-  top: 0;
-}
+				<<%=slidesx[i].elements[j].type %> id="<%= slidesx[i].elements[j].id%>"><%= slidesx[i].elements[j].value %> </<%=slidesx[i].elements[j].type %>>
 
-						</style>
-						<script>
-						var x='<%= abouts[i].x%>'; 
-						var y='<%= abouts[i].y%>'; 
-						console.log(x);
-						console.log(y)
-						var element = document.getElementById('<%=abouts[i].id%>');
-							// element.style.left = '<%=abouts[i].x%>' + "px";
-							// element.style.right = '<%=abouts[i].y%>' + "px";
-							element.style.position = "absolute";
+			
+				<%=j %>
+				
+				<script>
+					
+					var x = '<%= slidesx[i].elements[j].x%>';
+					var y = '<%= slidesx[i].elements[j].y%>';
+					var id='<%= slidesx[i].elements[j].id%>';
 
-							element.style.left = '<%=abouts[i].x%>' + "px";
-							element.style.top = '<%=abouts[i].y%>' + "px";
-console.log(element.style.marginLeft)
+					// console.log(x);
+					// console.log(y);
+					console.log(id);
+					
+					//$('.reveal').css({position: 'relative'});
+					//$('.slides').css({position: 'relative'});
+					$('#' + id).parent().css({position: 'relative'});
+					$('#' + id).css({top: x + 'px', left:  y + 'px', position:'absolute'});
+					
+					
+					var elementStyle = document.getElementById(id).style;
 
-// document.getElementById('<%=abouts[i].id%>').addEventListener('click', printPosition)
-// console.log('<%=abouts[i].id%>')
-// document.getElementById('<%= abouts[i].title%>').addEventListener('click', printPosition)
-// console.log('<%= abouts[i].title%>')
-
-
-function getPosition(e) {
-  var rect = e.target.getBoundingClientRect();
-  var x = e.clientX - rect.left;
-  var y = e.clientY - rect.top;
-  console.log('pozicija je ' + x,y)
-  return {
-    x,
-    y
-  }
-}
-
-function printPosition(e) {
-  var position = getPosition(e);
-  console.log('iz printa' + position.x, position.y)
-  document.getElementById('area').value = 'X: ' + position.x + ' Y: ' + position.y;
-}
-						
-						</script>
-		  </section>
-		   <%}%>
-
+					
+					
+					// $('#' + id).css({top: x + 'px', left:  y + 'px', position:'absolute'});
+					
+				</script>
+		
+			<%}%>	
+		</section>
+			<%}%>
 
 
 		</div>
 
-	</div>
-
-	<script src="/js/reveal.js"></script>
-
+	<!-- <script src="/js/reveal.js"></script> -->
+</div>
 	<script>
 
 		// More info https://github.com/hakimel/reveal.js#configuration

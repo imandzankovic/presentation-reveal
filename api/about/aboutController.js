@@ -20,17 +20,17 @@ exports.params = function (req, res, next, id) {
 exports.get = function (req, res, next) {
   About.find({}, '-__v')
     .then(function (abouts) {
-        res.render(path.resolve('/Users/Iman/Desktop/presis/test.html'), {
+        // res.render(path.resolve('/Users/Iman/Desktop/presis/test.html'), {
         
-        //  abouts:abouts
-        abouts:abouts
+        // //  abouts:abouts
+        // abouts:abouts
 
-        }, function (err, memo) {
-          console.log(err);
+        // }, function (err, memo) {
+        //   console.log(err);
          
-          res.send(memo)
-        });
-        //res.send(abouts)
+        //   res.send(memo)
+        // });
+        res.send(abouts)
      
     }, function (err) {
       next(err);

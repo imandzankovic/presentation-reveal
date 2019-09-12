@@ -21,7 +21,7 @@
 
 	<!-- Theme used for syntax highlighting of code -->
 	<link rel="stylesheet" href="lib/css/monokai.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 	<!-- Printing and PDF exports -->
 	<script>
 		var link = document.createElement('link');
@@ -30,8 +30,11 @@
 		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
-
-
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
 </head>
 
 <body>
@@ -40,35 +43,21 @@
 
 		<!-- Any section element inside of this container is displayed as a slide -->
 		<div class="slides">
-			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-			<link rel="stylesheet" href="/resources/demos/style.css">
-			<style>
-				#draggable {
-					width: 150px;
-					height: 150px;
-					padding: 0.5em;
-				}
-			</style>
-			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 			<section>
 
-
 				<div id="container" class="ui-widget-content">
-					<h3 class="ui-widget-header">Content</h3>
-					<!-- <span id="draggable">* -->
-					<input type="text " name="title" id="resizable" class="ui-state-active" value="This is input box">
-					<!-- </span> -->
 
 
+					<button id="addTitle">
+						Add Title
+					</button>
 
-					<!-- <input type="text" id="pets" /> -->
-					<input type="button" id="addPet" value="Add Element" />
+					<button id="addSubtitle"> Add Subtitle</button>
+
+
+					<button id="savePresentation">Save Presentation</button>
 					<br />
-
 				</div>
-
-
 
 				<style>
 					#container {
@@ -92,10 +81,27 @@
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 				<script>
 
-					document.getElementById("addPet").onclick = function () {
+
+					function NewGuid() {
+						var sGuid = "";
+						for (var i = 0; i < 32; i++) {
+							sGuid += Math.floor(Math.random() * 0xF).toString(0xF);
+						}
+
+						return sGuid;
+					}
+
+					document.getElementById("addTitle").addEventListener('click', addTextbox);
+					document.getElementById("addSubtitle").addEventListener('click', addTextbox);
+
+
+
+					function addTextbox() {
+
+						var nameOfClass = NewGuid();
 						var form = document.getElementById("container");
 						var input = document.createElement("textarea");
-						input.id = "mystyle"
+						input.id = nameOfClass
 						input.type = "text";
 						input.value = "This is input box";
 						input.focus();
@@ -103,82 +109,170 @@
 						form.appendChild(input);
 						form.appendChild(br);
 
-						$('#mystyle').resizable({ cancel: null }); //adds a new parent to #clown
-						$('#mystyle').parent().draggable({ cancel: null });  //makes the new parent draggable
+						$('#' + nameOfClass).resizable({ cancel: null }); //adds a new parent to #class
+						$('#' + nameOfClass).parent().draggable({ cancel: null });  //makes the new parent draggable
+						$('#' + nameOfClass).focus();
 
-						$('#mystyle').focus();
-							
+						var x = $("#container :input");
+
+
+						window.x = x;
+						console.log(window.x)
+						window.id = nameOfClass;
+						console.log(window.id)
 
 					}
 
-					$(function () {
-						$('#resizable').resizable({ cancel: null }); //adds a new parent to #clown
-						$('#resizable').parent().draggable({ cancel: null });  //makes the new parent draggable
 
 
-					});
+					function getPosition(id) {
+						console.log(id)
 
-					document.getElementById("resizable").addEventListener('click', postSlide)
-					function getPosition(e) {
-						var rect = e.target.getBoundingClientRect();
-						var x = e.clientX - rect.left;
-						var y = e.clientY - rect.top;
+						var rect = document.getElementById(id)
+
+						position = $(rect).offset();
+						var x = position.left;
+						var y = position.top;
 						console.log('pozicija je ' + x, y)
 						return {
 							x,
 							y
 						}
+
 					}
 
-					var clickedOnce = false;
-					let id = '';
-					let resPost;
-					function postSlide(e) {
 
+					document.getElementById("savePresentation").addEventListener('click', postSlide);
+					var arrayname = new Array();
+
+					var clickedOnce = false;							
+						let resPost;
+						var _id = '';	
+					function postSlide(e) {
+						
+						
+			
 						if (!clickedOnce) {
 							clickedOnce = true;
-							var res = getPosition(e);
-							console.log('iz posta' + res.x)
-							axios.post('http://localhost:3000/api/abouts', {
-								title: '',
-								description: '',
-								x: res.x,
-								y: res.y
-							})
-								.then((res) => {
-									console.log(`statusCode: ${res.statusCode}`)
-									console.log(res.data)
-									id = res.data._id
-									resPost = res;
-								})
-								.catch((error) => {
-									console.error(error)
-								})
-						}
+							var list = window.x;
+						$.each(list, function (index, element) {
+							let i = { id: "", type: "", value: "", x: "", y: ""};
+							console.log(' | id: ' + element.id);
+							console.log(' | type: ' + element.type);
+							console.log(' | value: ' + element.value);
+							console.log('x | :' + getPosition(element.id).x);
+							console.log('x | :' + getPosition(element.id).y);
+							
 
-						else {
-							console.log('iz puta')
-							axios.put('http://localhost:3000/api/abouts/' + id, {
-								title: document.getElementById("resizable").value,
-								description: '',
-								x: resPost.data.x,
-								y: resPost.data.y
+							i.id = element.id;
+							i.type = element.type;
+							i.value = element.value;
+							i.x = getPosition(element.id).x;
+							i.y = getPosition(element.id).y;
+							
+
+							if (i.type == 'textarea')
+
+								arrayname.push(i);
+							arrayname.concat(arrayname)
+
+
+
+						})
+						$.each(arrayname, function (index, element) {
+							console.log(element)
+						})
+						axios.post('http://localhost:3000/api/slides', {
+
+							elements: arrayname
+						})
+							.then((res) => {
+								console.log(`statusCode: ${res.statusCode}`)
+								console.log(res.data)
+								_id = res.data._id
+								resPost = res;
 							})
-								.then((res) => {
-									console.log(`statusCode: ${res.statusCode}`)
-									console.log(res)
-								})
-								.catch((error) => {
-									console.error(error)
-								})
-						}
+							.catch((error) => {
+								console.error(error)
+							})
+
 
 					}
+					else {
+						
+									console.log('iz puta')
+									console.log(_id)
+									
+									axios.put('http://localhost:3000/api/slides/' + _id, {
+										
+									elements:arrayname
+									})
+										.then((res) => {
+											console.log(`statusCode: ${res.statusCode}`)
+											console.log(res)
+										})
+										.catch((error) => {
+											console.error(error)
+										})
+								
+					}
+				}
+
+						
+
+						// 	var clickedOnce = false;
+						// 	let id = '';
+						// 	let resPost;
+						// 	function postSlide(e) {
+
+						// 		if (!clickedOnce) {
+						// 			clickedOnce = true;
+
+						// 		var res = getPosition(e);
+						// 		console.log('iz posta' + res.x)
+						// 		axios.post('http://localhost:3000/api/slides', {
+						// 			elements : {
+						// 			id:window.id,
+						// 			type:'title',
+						// 			value: (document.getElementById(window.id)) != null ? document.getElementById(window.id).value : '',
+						// 			x: res.x,
+						// 			y: res.y
+						// 			}
+
+						// 		})
+						// 			.then((res) => {
+						// 				console.log(`statusCode: ${res.statusCode}`)
+						// 				console.log(res.data)
+						// 				id = res.data._id
+						// 				resPost = res;
+						// 			})
+						// 			.catch((error) => {
+						// 				console.error(error)
+						// 			})
+
+						// 	}
+						// 	else {
+						// 			console.log('iz puta')
+						// 			axios.put('http://localhost:3000/api/slides/' + id, {
+						// 				title: (document.getElementById(window.id)) != null ? document.getElementById(window.id).value : '',
+						// 				description: (document.getElementById(window.subtitle)) != null ? document.getElementById(window.subtitle).value : '',							
+						// 				x: resPost.data.x,
+						// 				y: resPost.data.y
+						// 			})
+						// 				.then((res) => {
+						// 					console.log(`statusCode: ${res.statusCode}`)
+						// 					console.log(res)
+						// 				})
+						// 				.catch((error) => {
+						// 					console.error(error)
+						// 				})
+						// 		}
+						// }
+
 
 				</script>
 
 			</section>
-
 
 			<section>
 				<H1>ADD TITLE AND TEXT</H1>
@@ -211,8 +305,8 @@
 						<form action="http://localhost:3000/api/dvas" method="POST">
 
 							<div class="form-group">
-								<input draggable="true" type="text" name="name" value="" placeholder="title 1 "
-									id="name" autofocus="autofocus" class="form-control" />
+								<input type="text" name="name" value="" placeholder="title 1 " id="name"
+									autofocus="autofocus" class="form-control" />
 							</div>
 							<div class="form-group">
 								<input type="text" name="title" value="" placeholder="title 2" id="title"
@@ -302,7 +396,6 @@
 		});
 
 	</script>
-
 
 </body>
 

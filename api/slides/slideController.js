@@ -20,18 +20,18 @@ exports.params = function (req, res, next, id) {
 
 exports.get = function (req, res, next) {
     Slide.find({}, '-__v')
-    .then(function (slides) {
-        // res.render(path.resolve('/Users/Iman/Desktop/presis/d.html'), {
+    .then(function (slidesx) {
+        // res.render(path.resolve('/Users/Iman/Desktop/presis/test.html'), {
         
         // //  slides:slides
-        // slides:slides
+        // slidesx:slidesx
 
         // }, function (err, memo) {
         //   console.log(err);
          
         //   res.send(memo)
         // });
-        res.send(slides)
+       res.send(slidesx)
      
     }, function (err) {
       next(err);
