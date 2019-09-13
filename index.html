@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>reveal.js – The HTML Presentation Framework</title>
+	 <title>reveal.js – The HTML Presentation Framework</title>
 
 	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 	<meta name="author" content="Hakim El Hattab">
@@ -15,21 +15,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-	<link rel="stylesheet" href="/css/reset.css">
+	 <!-- <link rel="stylesheet" href="/css/reset.css">
 	<link rel="stylesheet" href="/css/reveal.css">
 	<link rel="stylesheet" href="/css/theme/black.css" id="theme">
 
-	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<link rel="stylesheet" href="lib/css/monokai.css">  -->
 
 	<!-- Printing and PDF exports -->
-	<script>
+	<!-- <script>
 		var link = document.createElement('link');
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
 		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
-	</script>
+	</script> -->
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://unpkg.com/konva@4.0.10/konva.min.js"></script>
@@ -46,12 +46,11 @@
 		<div class="slides">
 			<section>
 
-				<div id="container" class="ui-widget-content">
+				<div id="track">
 
-					<button id="add"> Add Shape</button>
-					<div id="bucket">
+					<button id="Circle"> Add Circle</button>
+					<button id="Box"> Add Box</button>
 
-					</div>
 					<button id="addTitle">
 						Add Title
 					</button>
@@ -63,93 +62,178 @@
 					<br />
 				</div>
 
+
+				<div id="container">
+
+				</div>
+
+
+
 				<style>
 					#container {
 						width: 900px;
-						height: 3000px;
-						background-color: aqua;
-
+						height: 500px;
+						margin-top: 58px;
+						background-color: blueviolet;
 					}
 
-					#container h3 {
-						text-align: center;
-						margin: 0;
-						margin-bottom: 10px;
-					}
-
-					#resizable,
-					#container {
-						padding: 0.5em;
-
+					#track {
+						width: 940px;
+						height: 100px;
+						margin-top: -50px;
+						position: absolute;
+						background-color: cornsilk;
 					}
 				</style>
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 				<script>
+					window.onload = function () {
+						var width = window.innerWidth;
+						var height = window.innerHeight;
+						var stage = new Konva.Stage({
+							container: 'container',
+							width: width,
+							height: height
+						});
+
+						var layer = new Konva.Layer();
+						window.layer=layer;
+						
+						stage.add(layer);
+						window.stage=stage;
+					}
+
+					// var stage = new Konva.Stage({
+					// 	container: 'container',
+					// 	width: 900,
+					// 	height: 500,
+					// 	draggable: true
 
 
-					var stage = new Konva.Stage({
-						container: 'bucket',
-						width: 400,
-						height: 400
-					})
+					// })
 
-					var layer = new Konva.Layer({
+					// var layer = new Konva.Layer({
 
-					});
-					var form = document.getElementById("add");
-					console.log(form)
+					// });
+					//window.layer=layer;
 
 
 
-					form.addEventListener("click", function () {
+					function addCircle() {
+
 						var elId = ''
 						elId = NewGuid();
-						window.elId = elId;
+						window.elId1 = elId;
+
 						var circle = new Konva.Circle({
 							x: 100,
 							y: 100,
 							radius: 50,
 							fill: 'blue',
-							id: elId
-
-						});
-						var textNode = new Konva.Text({
-							text: 'Some text here',
-							x: 20,
-							y: 50,
-							fontSize: 20,
+							id: elId,
 							draggable: true
-						});
 
-						//layer.add(textNode);
-						layer.draw();
+						});
 
 						circle.on('dblclick', () => {
 
 							addTextbox();
 						});
+						window.circle = circle;
+
 
 
 						var listOfShapes = new Array();
-						let j = { id: "", type: "", value: "", x: "", y: "",stage:[] };
-						 j.id = window.elId;
-						 //j.type = 'shape';
+						let j = { id: "", type: "", value: "", x: "", y: "", stage: [] };
+						j.id = window.elId1;
+						//j.type = 'shape';
 						// j.value = circle.attrs.fill;
 						// j.x = circle.attrs.x;
 						// j.y = circle.attrs.y;
 
-					
-
-						layer.add(circle);
-						stage.add(layer);
-						j.stage=stage.toJSON();
+						window.layer.add(window.circle);
+						window.stage.add(window.layer);
+						window.layer.draw();
+						j.stage = window.stage.toJSON();
 						listOfShapes.push(j)
 
 						window.listOfShapes = listOfShapes;
 						console.log(listOfShapes)
 
+					}
 
-					});
+
+					function addBox() {
+
+						var elId = ''
+						elId = NewGuid();
+						window.elId = elId;
+
+						var rect = new Konva.Rect({
+							x: 20,
+							y: 20,
+							width: 100,
+							height: 50,
+							fill: 'green',
+							stroke: 'black',
+							strokeWidth: 4,
+							draggable: true
+
+						});
+
+						rect.on('dblclick', () => {
+
+							addTextbox();
+						});
+						window.rect = rect;
+
+
+						stage.on('click', function(e) {
+        //if click on empty area - remove all transformers
+        if (e.target === stage) {
+          stage.find('Transformer').destroy();
+          window.layer.draw();
+          return;
+        }
+        // // do nothing if clicked NOT on our rectangles
+        if (!e.target === rect) {
+          return;
+        }
+        // remove old transformers
+        // TODO: we can skip it if current rect is already selected
+        stage.find('Transformer').destroy();
+
+        // create new transformer
+        var tr = new Konva.Transformer();
+        layer.add(tr);
+        tr.attachTo(e.target);
+		layer.draw();
+       
+
+		
+      });
+
+
+
+						var listOfShapes = new Array();
+						let j = { id: "", type: "", value: "", x: "", y: "", stage: [] };
+						j.id = window.elId;
+						//j.type = 'shape';
+						// j.value = circle.attrs.fill;
+						// j.x = circle.attrs.x;
+						// j.y = circle.attrs.y;
+
+						window.layer.add(window.rect);
+						window.stage.add(window.layer);
+						window.layer.draw();
+
+						j.stage = window.stage.toJSON();
+						listOfShapes.push(j)
+
+						window.listOfShapes = listOfShapes;
+						console.log(listOfShapes)
+
+					}
 
 
 
@@ -163,6 +247,8 @@
 						return sGuid;
 					}
 
+					document.getElementById("Circle").addEventListener('click', addCircle);
+					document.getElementById("Box").addEventListener('click', addBox);
 					document.getElementById("addTitle").addEventListener('click', addTextbox);
 					document.getElementById("addSubtitle").addEventListener('click', addTextbox);
 
@@ -170,23 +256,208 @@
 
 					function addTextbox() {
 
-						var nameOfClass = NewGuid();
-						var form = document.getElementById("container");
-						var input = document.createElement("textarea");
-						input.id = nameOfClass
-						input.type = "text";
-						input.value = "This is input box";
-						input.focus();
-						var br = document.createElement("br");
-						form.appendChild(input);
-						form.appendChild(br);
 
-						$('#' + nameOfClass).resizable({ cancel: null }); //adds a new parent to #class
-						$('#' + nameOfClass).parent().draggable({ cancel: null });  //makes the new parent draggable
-						$('#' + nameOfClass).focus();
+						var textNode = new Konva.Text({
+							text: 'Some text here',
+							x: 50,
+							y: 80,
+							fontSize: 20,
+							draggable: true,
+							width: 200
+						});
 
-						window.id = nameOfClass;
-						console.log(window.id)
+						window.textNode=textNode;
+						window.layer.add(window.textNode);
+						window.layer.draw();
+
+						var tr = new Konva.Transformer({
+							node: textNode,
+							enabledAnchors: ['middle-left', 'middle-right'],
+							// set minimum width of text
+							boundBoxFunc: function (oldBox, newBox) {
+								newBox.width = Math.max(30, newBox.width);
+								return newBox;
+							}
+						});
+
+						textNode.on('transform', function () {
+							// reset scale, so only with is changing by transformer
+							textNode.setAttrs({
+								width: textNode.width() * textNode.scaleX(),
+								scaleX: 1
+							});
+						});
+
+						window.layer.add(tr);
+
+						window.layer.draw();
+
+						layer.on('dblclick', () => {
+							// hide text node and transformer:
+							textNode.hide();
+							tr.hide();
+							window.layer.draw();
+
+							// create textarea over canvas with absolute position
+							// first we need to find position for textarea
+							// how to find it?
+
+							// at first lets find position of text node relative to the stage:
+							var textPosition = textNode.absolutePosition();
+
+							// then lets find position of stage container on the page:
+							var stageBox = stage.container().getBoundingClientRect();
+
+							// so position of textarea will be the sum of positions above:
+							var areaPosition = {
+								x: stageBox.left + textPosition.x,
+								y: stageBox.top + textPosition.y
+							};
+
+							// create textarea and style it
+							var textarea = document.createElement('textarea');
+							document.body.appendChild(textarea);
+
+							// apply many styles to match text on canvas as close as possible
+							// remember that text rendering on canvas and on the textarea can be different
+							// and sometimes it is hard to make it 100% the same. But we will try...
+							textarea.value = textNode.text();
+							textarea.style.position = 'absolute';
+							textarea.style.top = areaPosition.y + 'px';
+							textarea.style.left = areaPosition.x + 'px';
+							textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
+							textarea.style.height =
+								textNode.height() - textNode.padding() * 2 + 5 + 'px';
+							textarea.style.fontSize = textNode.fontSize() + 'px';
+							textarea.style.border = 'none';
+							textarea.style.padding = '0px';
+							textarea.style.margin = '0px';
+							textarea.style.overflow = 'hidden';
+							textarea.style.background = 'none';
+							textarea.style.outline = 'none';
+							textarea.style.resize = 'none';
+							textarea.style.lineHeight = textNode.lineHeight();
+							textarea.style.fontFamily = textNode.fontFamily();
+							textarea.style.transformOrigin = 'left top';
+							textarea.style.textAlign = textNode.align();
+							textarea.style.color = textNode.fill();
+							rotation = textNode.rotation();
+							var transform = '';
+							if (rotation) {
+								transform += 'rotateZ(' + rotation + 'deg)';
+							}
+
+							var px = 0;
+							// also we need to slightly move textarea on firefox
+							// because it jumps a bit
+							var isFirefox =
+								navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+							if (isFirefox) {
+								px += 2 + Math.round(textNode.fontSize() / 20);
+							}
+							transform += 'translateY(-' + px + 'px)';
+
+							textarea.style.transform = transform;
+
+							// reset height
+							textarea.style.height = 'auto';
+							// after browsers resized it we can set actual value
+							textarea.style.height = textarea.scrollHeight + 3 + 'px';
+
+							textarea.focus();
+
+							function removeTextarea() {
+								textarea.parentNode.removeChild(textarea);
+								window.removeEventListener('click', handleOutsideClick);
+								textNode.show();
+								tr.show();
+								tr.forceUpdate();
+								layer.draw();
+							}
+
+							function setTextareaWidth(newWidth) {
+								if (!newWidth) {
+									// set width for placeholder
+									newWidth = textNode.placeholder.length * textNode.fontSize();
+								}
+								// some extra fixes on different browsers
+								var isSafari = /^((?!chrome|android).)*safari/i.test(
+									navigator.userAgent
+								);
+								var isFirefox =
+									navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+								if (isSafari || isFirefox) {
+									newWidth = Math.ceil(newWidth);
+								}
+
+								var isEdge =
+									document.documentMode || /Edge/.test(navigator.userAgent);
+								if (isEdge) {
+									newWidth += 1;
+								}
+								textarea.style.width = newWidth + 'px';
+							}
+
+							textarea.addEventListener('keydown', function (e) {
+								// hide on enter
+								// but don't hide on shift + enter
+								if (e.keyCode === 13 && !e.shiftKey) {
+									textNode.text(textarea.value);
+									removeTextarea();
+								}
+								// on esc do not set value back to node
+								if (e.keyCode === 27) {
+									removeTextarea();
+								}
+							});
+
+							textarea.addEventListener('keydown', function (e) {
+								scale = textNode.getAbsoluteScale().x;
+								setTextareaWidth(textNode.width() * scale);
+								textarea.style.height = 'auto';
+								textarea.style.height =
+									textarea.scrollHeight + textNode.fontSize() + 'px';
+							});
+
+							function handleOutsideClick(e) {
+								if (e.target !== textarea) {
+									textNode.text(textarea.value);
+									removeTextarea();
+								}
+							}
+							setTimeout(() => {
+								window.addEventListener('click', handleOutsideClick);
+							});
+						});
+
+
+
+
+						// var nameOfClass = NewGuid();
+						// var form = document.getElementById("track");
+						// var input = document.createElement("textarea");
+						// input.id = nameOfClass
+						// input.type = "text";
+						// input.value = "This is input box";
+						// input.focus();
+						// var br = document.createElement("br");
+						// form.appendChild(input);
+						// form.appendChild(br);
+
+						// $('#' + nameOfClass).resizable({ cancel: null }); //adds a new parent to #class
+						// $('#' + nameOfClass).parent().draggable({ cancel: null });  //makes the new parent draggable
+						// $('#' + nameOfClass).focus();
+
+						// $('#' + nameOfClass).parent().parent().draggable({ cancel: null });
+						// $('#' + nameOfClass).css("display","inline-block");
+						// //$('#' + nameOfClass).css("left","10px");
+
+						// //input.style.position = 'absolute';  // position it
+						// // input.style.left = '100px';
+						// // input.style.top = '100px'; 
+
+						// window.id = nameOfClass;
+						// console.log(window.id)
 
 					}
 					Array.prototype.contains = Array.prototype.contains || function (obj) {
@@ -245,7 +516,7 @@
 						}
 
 						$.each(list, function (index, element) {
-							let i = { id: "", type: "", value: "", x: "", y: ""};
+							let i = { id: "", type: "", value: "", x: "", y: "" };
 							console.log(' | id: ' + element.id);
 							console.log(' | type: ' + element.type);
 							console.log(' | value: ' + element.value);
@@ -263,7 +534,7 @@
 							else {
 								i.x = element.x;
 								i.y = element.y;
-								i.stage=element.stage;
+								i.stage = element.stage;
 							}
 
 
@@ -389,55 +660,16 @@
 			</section>
 
 
-			<section id="themes">
-				<h2>Themes</h2>
-				<p>
-					reveal.js comes with a few themes built in: <br>
-					Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js
-					demo deck. -->
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black
-						(default)</a> -
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a>
-					<br>
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a>
-					-
-					<a href="#"
-						onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-				</p>
-			</section>
+			
 
 
 		</div>
 
 	</div>
 
-	<script src="/js/reveal.js"></script>
+	 <!-- <script src="/js/reveal.js"></script>  -->
 
-	<script>
+	<!-- <script>
 
 		// More info https://github.com/hakimel/reveal.js#configuration
 		Reveal.initialize({
@@ -459,7 +691,7 @@
 			]
 		});
 
-	</script>
+	</script>  -->
 
 </body>
 
