@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 
-	 <title>reveal.js – The HTML Presentation Framework</title>
+	<title>reveal.js – The HTML Presentation Framework</title>
 
 	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 	<meta name="author" content="Hakim El Hattab">
@@ -15,7 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-	 <!-- <link rel="stylesheet" href="/css/reset.css">
+	<!-- <link rel="stylesheet" href="/css/reset.css">
 	<link rel="stylesheet" href="/css/reveal.css">
 	<link rel="stylesheet" href="/css/theme/black.css" id="theme">
 
@@ -30,6 +30,7 @@
 		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://unpkg.com/konva@4.0.10/konva.min.js"></script>
@@ -48,18 +49,26 @@
 
 				<div id="track">
 
-					<button id="Circle"> Add Circle</button>
-					<button id="Box"> Add Box</button>
+					<button class="btn" id="Circle"><i class="fa fa-circle"></i> Add Circle</button>
+					<button class="btn" id="Box"><i class="fa fa-clone"></i> Add Box</button>
+					<button class="btn" id="addTitle"><i class="fa fa-comment-o"></i> Add Title</button>
+					<button class="btn" id="addSubtitle"><i class="	fa fa-comments-o"></i> Add Subtitle</button>
+					<button class="btn" id="savePresentation"><i class="fa fa-folder"></i> Save Presentation</button>
 
-					<button id="addTitle">
+
+
+					<!-- <button id="Circle"> Add Circle</button> -->
+					<!-- <button id="Box"> Add Box</button> -->
+
+					<!-- <button id="addTitle">
 						Add Title
-					</button>
+					</button> -->
 
-					<button id="addSubtitle"> Add Subtitle</button>
+					<!-- <button id="addSubtitle"> Add Subtitle</button> -->
 
 
-					<button id="savePresentation">Save Presentation</button>
-					<br />
+					<!-- <button id="savePresentation">Save Presentation</button>
+					<br /> -->
 				</div>
 
 
@@ -70,7 +79,7 @@
 
 
 				<style>
-					#container {
+					/* #container {
 						width: 900px;
 						height: 500px;
 						margin-top: 58px;
@@ -83,6 +92,19 @@
 						margin-top: -50px;
 						position: absolute;
 						background-color: cornsilk;
+					} */
+					.btn {
+						background-color: DodgerBlue;
+						border: none;
+						color: white;
+						padding: 12px 16px;
+						font-size: 16px;
+						cursor: pointer;
+					}
+
+					/* Darker background on mouse-over */
+					.btn:hover {
+						background-color: RoyalBlue;
 					}
 				</style>
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
@@ -97,10 +119,10 @@
 						});
 
 						var layer = new Konva.Layer();
-						window.layer=layer;
-						
+						window.layer = layer;
+
 						stage.add(layer);
-						window.stage=stage;
+						window.stage = stage;
 					}
 
 					// var stage = new Konva.Stage({
@@ -188,30 +210,30 @@
 						window.rect = rect;
 
 
-						stage.on('click', function(e) {
-        //if click on empty area - remove all transformers
-        if (e.target === stage) {
-          stage.find('Transformer').destroy();
-          window.layer.draw();
-          return;
-        }
-        // // do nothing if clicked NOT on our rectangles
-        if (!e.target === rect) {
-          return;
-        }
-        // remove old transformers
-        // TODO: we can skip it if current rect is already selected
-        stage.find('Transformer').destroy();
+						stage.on('click', function (e) {
+							//if click on empty area - remove all transformers
+							if (e.target === stage) {
+								stage.find('Transformer').destroy();
+								window.layer.draw();
+								return;
+							}
+							// // do nothing if clicked NOT on our rectangles
+							if (!e.target === rect) {
+								return;
+							}
+							// remove old transformers
+							// TODO: we can skip it if current rect is already selected
+							stage.find('Transformer').destroy();
 
-        // create new transformer
-        var tr = new Konva.Transformer();
-        layer.add(tr);
-        tr.attachTo(e.target);
-		layer.draw();
-       
+							// create new transformer
+							var tr = new Konva.Transformer();
+							layer.add(tr);
+							tr.attachTo(e.target);
+							layer.draw();
 
-		
-      });
+
+
+						});
 
 
 
@@ -266,7 +288,7 @@
 							width: 200
 						});
 
-						window.textNode=textNode;
+						window.textNode = textNode;
 						window.layer.add(window.textNode);
 						window.layer.draw();
 
@@ -609,7 +631,7 @@
 
 			</section>
 
-			<section>
+			<!-- <section>
 				<H1>ADD TITLE AND TEXT</H1>
 				<div class="row">
 					<div class="col-md-12">
@@ -657,17 +679,17 @@
 			</section>
 
 
-			</section>
+			</section> -->
 
 
-			
+
 
 
 		</div>
 
 	</div>
 
-	 <!-- <script src="/js/reveal.js"></script>  -->
+	<!-- <script src="/js/reveal.js"></script>  -->
 
 	<!-- <script>
 
