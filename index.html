@@ -131,23 +131,22 @@
 
 
 						var listOfShapes = new Array();
-						let j = { id: "", type: "", value: "", x: "", y: "" };
-						j.id = window.elId;
-						j.type = 'circle';
-						j.value = circle.attrs.fill;
-						j.x = circle.attrs.x;
-						j.y = circle.attrs.y;
+						let j = { id: "", type: "", value: "", x: "", y: "",stage:[] };
+						 j.id = window.elId;
+						 //j.type = 'shape';
+						// j.value = circle.attrs.fill;
+						// j.x = circle.attrs.x;
+						// j.y = circle.attrs.y;
+
+					
+
+						layer.add(circle);
+						stage.add(layer);
+						j.stage=stage.toJSON();
 						listOfShapes.push(j)
 
 						window.listOfShapes = listOfShapes;
 						console.log(listOfShapes)
-
-						layer.add(circle);
-						stage.add(layer);
-
-						// var shape = stage.find('#'+ window.elId);
-						// console.log(shape)
-
 
 
 					});
@@ -246,7 +245,7 @@
 						}
 
 						$.each(list, function (index, element) {
-							let i = { id: "", type: "", value: "", x: "", y: "" };
+							let i = { id: "", type: "", value: "", x: "", y: ""};
 							console.log(' | id: ' + element.id);
 							console.log(' | type: ' + element.type);
 							console.log(' | value: ' + element.value);
@@ -264,11 +263,12 @@
 							else {
 								i.x = element.x;
 								i.y = element.y;
+								i.stage=element.stage;
 							}
 
 
 
-							if (i.type == 'textarea' || i.type == 'circle') {
+							if (i.type != 'submit') {
 								if (arrayname.contains(i)) {
 									var idx = arrayname.indexOf(i);
 									console.log(i, index)

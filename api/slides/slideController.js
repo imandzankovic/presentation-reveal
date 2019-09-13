@@ -21,17 +21,17 @@ exports.params = function (req, res, next, id) {
 exports.get = function (req, res, next) {
     Slide.find({}, '-__v')
     .then(function (slidesx) {
-        // res.render(path.resolve('/Users/Iman/Desktop/presis/test.html'), {
+        res.render(path.resolve('/Users/Iman/Desktop/presis/test.html'), {
         
-        // //  slides:slides
-        // slidesx:slidesx
+        //  slides:slides
+        slidesx:slidesx
 
-        // }, function (err, memo) {
-        //   console.log(err);
+        }, function (err, memo) {
+          console.log(err);
          
-        //   res.send(memo)
-        // });
-       res.send(slidesx)
+          res.send(memo)
+        });
+      //res.send(slidesx)
      
     }, function (err) {
       next(err);

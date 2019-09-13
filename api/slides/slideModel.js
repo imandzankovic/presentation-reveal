@@ -18,7 +18,7 @@ var ElementSchema = new Schema({
         type: String
         //default:'value'
     },
-    style:[]
+    stage:[]
     
 });
 var SlidesSchema = new Schema({

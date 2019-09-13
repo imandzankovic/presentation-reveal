@@ -32,6 +32,7 @@
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/konva@4.0.10/konva.min.js"></script>
 	<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
@@ -44,51 +45,62 @@
 		<!-- Any section element inside of this container is displayed as a slide -->
 		<div class="slides">
 
-
 			<%for(let i=0; i<slidesx.length; i++) {%>
-					
-				<section>		
-					<%for(let j=0; j<slidesx[i].elements.length; j++) {%>
-			
 
-				<<%=slidesx[i].elements[j].type %> id="<%= slidesx[i].elements[j].id%>"><%= slidesx[i].elements[j].value %> </<%=slidesx[i].elements[j].type %>>
-
-			
-				<%=j %>
-				
+			<section>
+				<%for(let j=0; j<slidesx[i].elements.length; j++) {%>
+				<% if (slidesx[i].elements[j].stage != '') { %>
+				<div id="<%= slidesx[i].elements[j].id %>"></div>
 				<script>
-					
-					var x = '<%= slidesx[i].elements[j].x%>';
-					var y = '<%= slidesx[i].elements[j].y%>';
-					var id='<%= slidesx[i].elements[j].id%>';
+					var data = '<%-slidesx[i].elements[j].stage%>';
+					console.log('data je' + data)
 
-					// console.log(x);
-					// console.log(y);
-					console.log(id);
-					
-					//$('.reveal').css({position: 'relative'});
-					//$('.slides').css({position: 'relative'});
-					$('#' + id).parent().css({position: 'relative'});
-					$('#' + id).css({top: x + 'px', left:  y + 'px', position:'absolute'});
-					
-					
-					var elementStyle = document.getElementById(id).style;
 
-					
-					
-					// $('#' + id).css({top: x + 'px', left:  y + 'px', position:'absolute'});
-					
+					// create node using json string
+					var stage = Konva.Node.create(data, '<%= slidesx[i].elements[j].id %>');
 				</script>
-		
-			<%}%>	
+				<% } else { %>
+				<<%=slidesx[i].elements[j].type %> id="<%= slidesx[i].elements[j].id %>">
+					<%= slidesx[i].elements[j].value %> </<%=slidesx[i].elements[j].type %>>
+
+				<% } %>
+
+				<script>
+					console.log(id);
+					if (id = undefined) {
+						var x = '<%= slidesx[i].elements[j].x%>';
+						var y = '<%= slidesx[i].elements[j].y%>';
+						var id = '<%= slidesx[i].elements[j].id%>';
+
+						// console.log(x);
+						// console.log(y);
+						console.log(id);
+
+						//$('.reveal').css({position: 'relative'});
+						//$('.slides').css({position: 'relative'});
+						$('#' + id).parent().css({ position: 'relative' });
+						$('#' + id).css({ top: x + 'px', left: y + 'px', position: 'absolute' });
+
+
+						var elementStyle = document.getElementById(id).style;
+					}
+
+
+
+
+					// $('#' + id).css({top: x + 'px', left:  y + 'px', position:'absolute'});
+
+				</script>
+
+				<%}%>	
 		</section>
 			<%}%>
 
 
 		</div>
 
-	<!-- <script src="/js/reveal.js"></script> -->
-</div>
+		<!-- <script src="/js/reveal.js"></script> -->
+	</div>
 	<script>
 
 		// More info https://github.com/hakimel/reveal.js#configuration
